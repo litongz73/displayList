@@ -1,4 +1,9 @@
 version: 0.2
+env:
+  variables:
+    CACHE_CONTROL: "86400"
+    S3_BUCKET: "{{s3_bucket_url}}"
+    BUILD_FOLDER: "dist"
 
 phases:
   install:
@@ -16,15 +21,11 @@ phases:
 
   build:
     commands:
-      - echo Building Angular project...
-      - ng build --prod
+      - echo Build started
+      - ng build
 
 artifacts:
   files:
-    - "dist/**/*"
+    - "**/*"
+  base-directory: "dist*"
   discard-paths: yes
-
-post_build:
-  commands:
-    - echo Deploying to AWS S3...
-    - aws s3 sync dist/ s3://your-s3-bucket-name/
