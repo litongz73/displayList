@@ -1,0 +1,11 @@
+div.collapsed > div > ul {
+  display: none;
+}
+
+div > .comments {
+  background-color: gray;
+}
+
+.post {
+  text-indent: -2em;
+}

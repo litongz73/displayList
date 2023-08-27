@@ -1,0 +1,57 @@
+<h3>Displaying Posts and Comments</h3>
+
+<!-- <div class="container">
+  <ul
+    class="post"
+    *ngFor="let each of postList | async; trackBy: trackById"
+    [ngClass]="each.selected === true ? 'expanded' : 'collapsed'"
+    (click)="each.selected = !each.selected"
+  >
+    {{
+      each.id
+    }}-
+    {{
+      each.title
+    }}
+    <div class="comments">
+      <ul
+        class="comment"
+        *ngFor="let comment of commentList | async | commentPipe: each.id"
+      >
+        {{
+          comment.id
+        }}-
+        {{
+          comment.body
+        }}
+      </ul>
+    </div>
+  </ul>
+</div> -->
+
+<mat-selection-list [multiple]="false">
+  <div
+    class="postContainer"
+    *ngFor="let each of postList | async"
+    [ngClass]="each.selected === true ? 'expanded' : 'collapsed'"
+    (click)="each.selected = !each.selected"
+  >
+    <mat-list-option>
+      {{ each.id }}-
+      {{ each.title }}
+    </mat-list-option>
+    <div class="comments">
+      <ul
+        class="comment"
+        *ngFor="let comment of commentList | async | commentPipe: each.id"
+      >
+        {{
+          comment.id
+        }}-
+        {{
+          comment.body
+        }}
+      </ul>
+    </div>
+  </div>
+</mat-selection-list>
