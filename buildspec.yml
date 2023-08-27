@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo Installing source code dependencies...
+      - npm install -g @angular/cli
+      - npm install
+
+  pre_build:
+    commands:
+      - echo Running unit tests...
+      - ng test --watch=false --browsers=ChromeHeadless
+
+  build:
+    commands:
+      - echo Building Angular project...
+      - ng build --prod
+
+artifacts:
+  files:
+    - "dist/**/*"
+  discard-paths: yes
+
+post_build:
+  commands:
+    - echo Deploying to AWS S3...
+    - aws s3 sync dist/ s3://your-s3-bucket-name/
