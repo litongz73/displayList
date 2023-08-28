@@ -2,7 +2,7 @@ version: 0.2
 env:
   variables:
     CACHE_CONTROL: "86400"
-    S3_BUCKET: "{{s3_bucket_url}}"
+    S3_BUCKET: "{{s3_bucket_name}}"
     BUILD_FOLDER: "dist"
 
 phases:
@@ -15,20 +15,18 @@ phases:
       - apt-get install -yq google-chrome-stable
       - npm install -g @angular/cli
       - npm install
-
   pre_build:
     commands:
       - echo Running unit tests...
-      - CHROME_BIN=/usr/bin/google-chrome-stable
-      - ng test
-
+      - export CHROME_BIN=/usr/bin/google-chrome-stable
+      - ng test --watch=false
   build:
     commands:
-      - echo Build started
+      - echo Build started...
       - ng build
 
 artifacts:
   files:
     - "**/*"
-  base-directory: "dist*"
+  base-directory: "dist/"
   discard-paths: yes
