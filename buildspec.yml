@@ -2,7 +2,7 @@ version: 0.2
 env:
   variables:
     CACHE_CONTROL: "86400"
-    S3_BUCKET: "{{s3_bucket_name}}"
+    S3_BUCKET: "{{s3_bucket_url}}"
     BUILD_FOLDER: "dist"
 
 phases:
@@ -10,23 +10,33 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing Chrome Headless...
-      - apt-get update
-      - apt-get install -yq google-chrome-stable
-      - npm install -g @angular/cli
-      - npm install
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install apt-transport-https
+      # Setup for Yarn
+      - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      # Setup for Chrome
+      - apt-get install -y software-properties-common
+      - add-apt-repository -y ppa:canonical-chromium-builds/stage
+      # Do it!
+      - apt-get update -y
+      - apt-get install -y chromium-browser
+
   pre_build:
     commands:
-      - echo Running unit tests...
-      - export CHROME_BIN=/usr/bin/google-chrome-stable
-      - ng test --watch=false
+      - npm install -g @angular/cli
+      - npm install
+
   build:
     commands:
-      - echo Build started...
+      - echo Running unit tests...
+      - ng test --watch:false
+      - echo Build started
       - ng build
 
 artifacts:
   files:
     - "**/*"
-  base-directory: "dist/"
+  base-directory: "dist*"
   discard-paths: yes
