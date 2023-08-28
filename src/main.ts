@@ -1,7 +1,21 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import 'zone.js/dist/zone';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-import { AppModule } from './app/app.module';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ListComponent } from './app/list/list.component';
 
+@Component({
+  selector: 'my-app',
+  standalone: true,
+  imports: [CommonModule, ListComponent],
+  template: ` <app-list></app-list> `,
+})
+export class App {
+  name = 'Angular';
+}
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(App, {
+  providers: [provideAnimations()],
+});
