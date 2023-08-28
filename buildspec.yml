@@ -31,7 +31,7 @@ phases:
   build:
     commands:
       - echo Running unit tests...
-      - ng test --watch:false
+      - ng test --watch=false
       - echo Build started
       - ng build
 
