@@ -10,12 +10,16 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - echo Installing Chrome Headless...
+      - apt-get update
+      - apt-get install -yq google-chrome-stable
       - npm install -g @angular/cli
       - npm install
 
   pre_build:
     commands:
       - echo Running unit tests...
+      - CHROME_BIN=/usr/bin/google-chrome-stable
       - ng test
 
   build:
