@@ -20,7 +20,7 @@ phases:
       - apt-get install -y software-properties-common
       - add-apt-repository -y ppa:canonical-chromium-builds/stage
       # Do it!
-      - apt-get update -y
+      # - apt-get update -y
       - apt-get install -y chromium-browser
 
   pre_build:
