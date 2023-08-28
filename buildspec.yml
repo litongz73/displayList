@@ -4,6 +4,7 @@ env:
     CACHE_CONTROL: "86400"
     S3_BUCKET: "{{s3_bucket_url}}"
     BUILD_FOLDER: "dist"
+    CHROME_BIN: "/opt/chrome/chrome"
 
 phases:
   install:
@@ -11,6 +12,10 @@ phases:
       nodejs: 18
     commands:
       - echo Installing source code dependencies...
+      - wget https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip
+      - unzip chromedriver_linux64.zip
+      - rm chromedriver_linux64.zip
+      - mv chromedriver /opt/chrome
       - npm install -g @angular/cli
       - npm install
 
