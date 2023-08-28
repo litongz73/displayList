@@ -4,25 +4,19 @@ env:
     CACHE_CONTROL: "86400"
     S3_BUCKET: "{{s3_bucket_url}}"
     BUILD_FOLDER: "dist"
-    CHROME_BIN: "/opt/chrome/chrome"
 
 phases:
   install:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo Installing source code dependencies...
-      - wget https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip
-      - unzip chromedriver_linux64.zip
-      - rm chromedriver_linux64.zip
-      - mv chromedriver /opt/chrome
       - npm install -g @angular/cli
       - npm install
 
   pre_build:
     commands:
       - echo Running unit tests...
-      - ng test --watch=false --browsers=ChromeHeadless
+      - ng test
 
   build:
     commands:
